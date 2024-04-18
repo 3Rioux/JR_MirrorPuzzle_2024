@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using UnityEngine;
 
 public class MirrorInteraction : MonoBehaviour
@@ -9,7 +10,15 @@ public class MirrorInteraction : MonoBehaviour
     public Transform PlayerHandPosition;
 
     [Tooltip("SocketObject with collider(shpere, box etc.) (is trigger = true)")]
-    public Collider Socket; // need Trigger
+    //public Collider Socket; // need Trigger
+    private Collider Socket; // need Trigger
+
+    /**
+     * access the line renderer in child of mirrorBody
+     * On after collision with socket 
+     * OFF by default 
+     */
+    private LineRenderer thisLineRenderer;
 
     //public AN_DoorScript DoorObject;
 
@@ -30,6 +39,8 @@ public class MirrorInteraction : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         boxCol = GetComponent<BoxCollider>();
+        thisLineRenderer = GetComponentInChildren<LineRenderer>();
+        LineRenderer.enable
     }
 
     void Update()
@@ -39,8 +50,12 @@ public class MirrorInteraction : MonoBehaviour
         // frozen if it is connected to PowerOut
         if (isConnected)
         {
-            gameObject.transform.position = Socket.transform.position;
-            gameObject.transform.rotation = Socket.transform.rotation;
+            gameObject.transform.position = new Vector3(Socket.transform.position.x, Socket.transform.position.y + 0.25f, Socket.transform.position.z);
+            
+            /**
+             * Keep the game object original rotation 
+             */
+            //gameObject.transform.rotation = Socket.transform.rotation;
             //DoorObject.isOpened = true;
         }
         else
@@ -51,12 +66,25 @@ public class MirrorInteraction : MonoBehaviour
 
     void Interaction()
     {
+
+        /**
+         * Pick up the mirror game object 
+         */
         if (NearView() && Input.GetKeyDown(KeyCode.E) && !follow)
         {
             isConnected = false; // unfrozen
             
             follow = true;
             followFlag = false;
+        }
+
+        /**
+         * Rotate the mirror game object WHEN FOLLOWING!!!
+         */
+        if (NearView() && Input.GetKeyDown(KeyCode.R) && follow)
+        {
+            //rotate the cube by 90 each press of the R button 
+            gameObject.transform.rotation *= Quaternion.Euler(0, 90, 0); // this adds a 90 degrees Y rotation
         }
 
         if (follow)
@@ -99,11 +127,22 @@ public class MirrorInteraction : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other == Socket)
+        if (other.tag == "Socket")
         {
+            //set the socket on collision 
+            Socket = other.gameObject.GetComponent<Collider>();
+
+
+
             isConnected = true;
             follow = false;
             //DoorObject.rbDoor.AddRelativeTorque(new Vector3(0, 0, 20f));
+
+
+            //******************************************************************************************************ADD Lazer Activation Code HERE
+
+            //******************************************************************************************************ADD Lazer Activation Code HERE
+
         }
         //if (OneTime) youCan = false;
     }
