@@ -1,16 +1,17 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AN_PlugScript : MonoBehaviour
+public class MirrorInteraction : MonoBehaviour
 {
-    [Tooltip("Feature for one using only")]
-    public bool OneTime = false;
-    [Tooltip("Plug follow this local EmptyObject")]
-    public Transform HeroHandsPosition;
+
+    [Tooltip("Mirror follows this local EmptyObject in the player prefab")]
+    public Transform PlayerHandPosition;
+
     [Tooltip("SocketObject with collider(shpere, box etc.) (is trigger = true)")]
     public Collider Socket; // need Trigger
-    public AN_DoorScript DoorObject;
+
+    //public AN_DoorScript DoorObject;
 
     // NearView()
     float distance;
@@ -18,11 +19,17 @@ public class AN_PlugScript : MonoBehaviour
     Vector3 direction;
 
     bool follow = false, isConnected = false, followFlag = false, youCan = true;
+    
+    /**
+     * Mirror Game object Components 
+     */
     Rigidbody rb;
+    BoxCollider boxCol;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        boxCol = GetComponent<BoxCollider>();
     }
 
     void Update()
@@ -34,11 +41,11 @@ public class AN_PlugScript : MonoBehaviour
         {
             gameObject.transform.position = Socket.transform.position;
             gameObject.transform.rotation = Socket.transform.rotation;
-            DoorObject.isOpened = true;
+            //DoorObject.isOpened = true;
         }
         else
         {
-            DoorObject.isOpened = false;
+            //DoorObject.isOpened = false;
         }
     }
 
@@ -47,30 +54,34 @@ public class AN_PlugScript : MonoBehaviour
         if (NearView() && Input.GetKeyDown(KeyCode.E) && !follow)
         {
             isConnected = false; // unfrozen
+            
             follow = true;
             followFlag = false;
         }
 
         if (follow)
         {
+            boxCol.enabled = false;
             rb.drag = 10f;
             rb.angularDrag = 10f;
             if (followFlag)
             {
                 distance = Vector3.Distance(transform.position, Camera.main.transform.position);
-                if (distance > 3f || Input.GetKeyDown(KeyCode.E))
+                if (distance > 5f || Input.GetKeyDown(KeyCode.E))
                 {
                     follow = false;
                 }
             }
 
             followFlag = true;
-            rb.AddExplosionForce(-1000f, HeroHandsPosition.position, 10f);
+            //rb.AddExplosionForce(-1000f, PlayerHandPosition.position, 10f);
             // second variant of following
             //gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, objectLerp.position, 1f);
+            gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, PlayerHandPosition.position, 1f);
         }
         else
         {
+            boxCol.enabled = true;
             rb.drag = 0f;
             rb.angularDrag = .5f;
         }
@@ -81,7 +92,8 @@ public class AN_PlugScript : MonoBehaviour
         distance = Vector3.Distance(transform.position, Camera.main.transform.position);
         direction = transform.position - Camera.main.transform.position;
         angleView = Vector3.Angle(Camera.main.transform.forward, direction);
-        if (distance < 3f && angleView <35f) return true;
+        //if (distance < 5f && angleView < 35f) return true;
+        if (distance < 6f) return true;
         else return false;
     }
 
@@ -93,6 +105,6 @@ public class AN_PlugScript : MonoBehaviour
             follow = false;
             //DoorObject.rbDoor.AddRelativeTorque(new Vector3(0, 0, 20f));
         }
-        if (OneTime) youCan = false;
+        //if (OneTime) youCan = false;
     }
 }
