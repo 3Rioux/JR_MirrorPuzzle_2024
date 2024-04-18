@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Sockets;
 using UnityEngine;
 
 public class MirrorInteraction : MonoBehaviour
@@ -9,16 +8,17 @@ public class MirrorInteraction : MonoBehaviour
     [Tooltip("Mirror follows this local EmptyObject in the player prefab")]
     public Transform PlayerHandPosition;
 
-    [Tooltip("SocketObject with collider(shpere, box etc.) (is trigger = true)")]
-    //public Collider Socket; // need Trigger
-    private Collider Socket; // need Trigger
+    [Tooltip("socketColliderObject with collider(shpere, box etc.) (is trigger = true)")]
+    //public Collider socketCollider; // need Trigger
+    private SphereCollider socketCollider; // need Trigger
+    private GameObject socketGameObject; // need Trigger
 
     /**
      * access the line renderer in child of mirrorBody
-     * On after collision with socket 
+     * On after collision with socketCollider 
      * OFF by default 
      */
-    private LineRenderer thisLineRenderer;
+    private Laser thisMirrorsLaserScript;
 
     //public AN_DoorScript DoorObject;
 
@@ -27,7 +27,13 @@ public class MirrorInteraction : MonoBehaviour
     float angleView;
     Vector3 direction;
 
-    bool follow = false, isConnected = false, followFlag = false, youCan = true;
+    public bool follow = false;
+    bool isConnected = false, followFlag = false, youCan = true;
+
+    /**
+     * avariable to determine if the socket has a mirror in place or not
+     */
+    bool isMirrorEquipped = false;
     
     /**
      * Mirror Game object Components 
@@ -39,8 +45,12 @@ public class MirrorInteraction : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         boxCol = GetComponent<BoxCollider>();
-        thisLineRenderer = GetComponentInChildren<LineRenderer>();
-        LineRenderer.enable
+
+        /**
+         * Access the Laser script and make sure the laser is off 
+         */
+        thisMirrorsLaserScript = GetComponentInChildren<Laser>();
+        thisMirrorsLaserScript.laserActivated = false;
     }
 
     void Update()
@@ -50,23 +60,30 @@ public class MirrorInteraction : MonoBehaviour
         // frozen if it is connected to PowerOut
         if (isConnected)
         {
-            gameObject.transform.position = new Vector3(Socket.transform.position.x, Socket.transform.position.y + 0.25f, Socket.transform.position.z);
-            
+            gameObject.transform.position = new Vector3(socketCollider.transform.position.x, socketCollider.transform.position.y + 0.25f, socketCollider.transform.position.z);
+
+            /**
+             * After placing the mirror in the socketCollider activate the laser
+             */
+            thisMirrorsLaserScript.laserActivated = true;
             /**
              * Keep the game object original rotation 
              */
-            //gameObject.transform.rotation = Socket.transform.rotation;
+            //gameObject.transform.rotation = socketCollider.transform.rotation;
             //DoorObject.isOpened = true;
         }
         else
         {
+            /**
+             * if the user picks the object up again then turn laser OFF again 
+             */
+            thisMirrorsLaserScript.laserActivated = false;
             //DoorObject.isOpened = false;
         }
     }
 
-    void Interaction()
+    public void Interaction()
     {
-
         /**
          * Pick up the mirror game object 
          */
@@ -76,12 +93,17 @@ public class MirrorInteraction : MonoBehaviour
             
             follow = true;
             followFlag = false;
+
+            /**
+             * set the size of the sphere collider back to 1 after the object is taken away 
+             */
+            Invoke("ResetCollider", 1.25f);
         }
 
         /**
          * Rotate the mirror game object WHEN FOLLOWING!!!
          */
-        if (NearView() && Input.GetKeyDown(KeyCode.R) && follow)
+        if (Input.GetKeyDown(KeyCode.R) && follow)
         {
             //rotate the cube by 90 each press of the R button 
             gameObject.transform.rotation *= Quaternion.Euler(0, 90, 0); // this adds a 90 degrees Y rotation
@@ -89,7 +111,7 @@ public class MirrorInteraction : MonoBehaviour
 
         if (follow)
         {
-            boxCol.enabled = false;
+            //boxCol.enabled = false;
             rb.drag = 10f;
             rb.angularDrag = 10f;
             if (followFlag)
@@ -109,7 +131,7 @@ public class MirrorInteraction : MonoBehaviour
         }
         else
         {
-            boxCol.enabled = true;
+            //boxCol.enabled = true;
             rb.drag = 0f;
             rb.angularDrag = .5f;
         }
@@ -121,7 +143,7 @@ public class MirrorInteraction : MonoBehaviour
         direction = transform.position - Camera.main.transform.position;
         angleView = Vector3.Angle(Camera.main.transform.forward, direction);
         //if (distance < 5f && angleView < 35f) return true;
-        if (distance < 6f) return true;
+        if (distance < 3f) return true;
         else return false;
     }
 
@@ -129,10 +151,22 @@ public class MirrorInteraction : MonoBehaviour
     {
         if (other.tag == "Socket")
         {
-            //set the socket on collision 
-            Socket = other.gameObject.GetComponent<Collider>();
+            //get the socket game object 
+            socketGameObject = other.gameObject;
+
+            //set the socketCollider on collision 
+            socketCollider = socketGameObject.GetComponent<SphereCollider>();
+
+            /**
+             * set the size of the sphere colider to the smallest possible after activating the trigger 
+             */
+            //socketCollider.radius = 0.1f;
 
 
+            /**
+             * Disable the collider after collision  
+             */
+            socketCollider.enabled = false;
 
             isConnected = true;
             follow = false;
@@ -144,6 +178,27 @@ public class MirrorInteraction : MonoBehaviour
             //******************************************************************************************************ADD Lazer Activation Code HERE
 
         }
+
         //if (OneTime) youCan = false;
+    }
+
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.tag == "Socket")
+    //    {
+    //        //set the socketCollider on collision 
+    //        socketCollider = other.gameObject.GetComponent<SphereCollider>();
+
+    //        /**
+    //        * set the size of the sphere collider back to 1 after the object is taken away 
+    //        */
+    //        Invoke("ResetCollider", 1.25f); 
+    //    }
+    //}
+
+    private void ResetCollider()
+    {
+        socketCollider.enabled = !isConnected;
+        socketCollider.radius = 0.8f;
     }
 }

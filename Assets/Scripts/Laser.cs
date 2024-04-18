@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Laser : MonoBehaviour
@@ -16,7 +17,7 @@ public class Laser : MonoBehaviour
     private bool reflectOnlyMirror;
 
     //bool to toggle the mirrors laser 
-    public bool laserActivated = false;
+    public bool laserActivated = false; //off by default 
 
 
     // Start is called before the first frame update
@@ -24,17 +25,19 @@ public class Laser : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.SetPosition(0, laserStartPoint.position); // set the position of the line to start at laser out
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (laserActivated)
+        if (laserActivated) // && previousLaserCollision == true
         {
             CastLaser(transform.position, -transform.forward);
         }else
         {
             //do nothing for now 
+            lineRenderer.IsDestroyed();
         }
     }
 
@@ -58,7 +61,7 @@ public class Laser : MonoBehaviour
                 position = hit.point;
 
                 // calculate the angle 
-                reflectionDirection = Vector3.Reflect(reflectionDirection, hit.normal); 
+                //reflectionDirection = Vector3.Reflect(reflectionDirection, hit.normal); 
 
                 //set the angle 
                 lineRenderer.SetPosition(i + 1, hit.point);
@@ -70,11 +73,13 @@ public class Laser : MonoBehaviour
                     {
                         lineRenderer.SetPosition(j, hit.point);
                     }
+                }else if(hit.transform.tag == "Mirror")
+                {
+                    //set the angle 
+                    lineRenderer.SetPosition(i + 1, hit.point);
                 }
 
             }
         }
-
-
     }
 }
