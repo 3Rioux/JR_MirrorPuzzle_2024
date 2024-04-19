@@ -22,7 +22,7 @@ public class ObjectGrabbable : MonoBehaviour
         rb.drag = 10f;
         rb.angularDrag = 10f;
 
-        mirrorSnapObjectGrababble.follow = true;
+        //mirrorSnapObjectGrababble.follow = true;
 
         this.PlayerHandPosition = objectGrabPointTransform;
         rb.useGravity = false;
@@ -33,7 +33,7 @@ public class ObjectGrabbable : MonoBehaviour
         rb.drag = 0f;
         rb.angularDrag = .5f;
 
-        mirrorSnapObjectGrababble.follow = false;
+        //mirrorSnapObjectGrababble.follow = false;
 
         this.PlayerHandPosition = null;
         rb.useGravity = true;
@@ -42,8 +42,6 @@ public class ObjectGrabbable : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
-
         if (PlayerHandPosition != null)
         {
             gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, PlayerHandPosition.position, 1f);

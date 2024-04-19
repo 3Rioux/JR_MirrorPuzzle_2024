@@ -15,7 +15,7 @@ public class PlayerPickUpDrop : MonoBehaviour
     private ObjectGrabbable objectGrabbable;
 
     
-    private MirrorSnap mirrorSnapPlayerPickup;
+   //private MirrorSnap mirrorSnapPlayerPickup;
 
     // Start is called before the first frame update
     void Start()
@@ -29,8 +29,9 @@ public class PlayerPickUpDrop : MonoBehaviour
         /**
          * New pickup method 
          */
-        if (Input.GetKeyDown(KeyCode.E) && !mirrorSnapPlayerPickup.youCan)
+        if (Input.GetKeyDown(KeyCode.E))
         {
+            //Debug.Log(mirrorSnapPlayerPickup.youCan);
             //check if already have something picked up
             if (objectGrabbable == null)//not carrying 
             {

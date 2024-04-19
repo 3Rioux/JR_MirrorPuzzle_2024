@@ -1676,8 +1676,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 119
   objectGrabPointTransform: {fileID: 427786072}
-  objectGrabbable: {fileID: 0}
-  mirrorSnapPlayerPickup: {fileID: 0}
 --- !u!114 &395893329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3088,7 +3086,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1020463585
 Transform:
   m_ObjectHideFlags: 0
@@ -3159,7 +3157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b45abbf7a891b4fb9db3341927ee41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerHandPosition: {fileID: 427786072}
+  PlayerHandPosition: {fileID: 0}
   mirrorSnapObjectGrababble: {fileID: 0}
 --- !u!54 &1052651630
 Rigidbody:
@@ -7764,6 +7762,7 @@ SphereCollider:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 395893327}
   - {fileID: 1020463585}
   - {fileID: 298411851}
   - {fileID: 1497959893}
@@ -7771,7 +7770,6 @@ SceneRoots:
   - {fileID: 57966765}
   - {fileID: 1391426067}
   - {fileID: 1973041644}
-  - {fileID: 395893327}
   - {fileID: 2021132762}
   - {fileID: 995984950}
   - {fileID: 1390153948}
