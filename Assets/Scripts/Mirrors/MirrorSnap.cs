@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MirrorSnap : MonoBehaviour
@@ -89,7 +90,7 @@ public class MirrorSnap : MonoBehaviour
              */
             thisMirrorsLaserScript.laserActivated = false;
             //DoorObject.isOpened = false;
-
+            
 
             /**
              * set the size of the sphere collider back to 1 after the object is taken away AFTER 1 second delay

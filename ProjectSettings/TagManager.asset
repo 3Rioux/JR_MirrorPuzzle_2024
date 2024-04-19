@@ -8,16 +8,17 @@ TagManager:
   - Mirror
   - Wall
   - Socket
+  - LaserStartEnd
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Interact
   - Socket
-  - 
+  - Laser
   - 
   - 
   - 

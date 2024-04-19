@@ -20,24 +20,34 @@ public class Laser : MonoBehaviour
     public bool laserActivated = false; //off by default 
 
 
+    //bool to toggle the mirrors laser until the previous laser makes contact with this mirror 
+    public bool previousLaserTrue = false; //off by default 
+
     // Start is called before the first frame update
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.SetPosition(0, laserStartPoint.position); // set the position of the line to start at laser out
 
+        //Ignore the collisions between layer 0 (default) and layer 8 (custom layer you set in Inspector window)
+        Physics.IgnoreLayerCollision(7,8);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (laserActivated) // && previousLaserCollision == true
+        if (laserActivated && previousLaserTrue) // && previousLaserCollision == true
         {
+            //Make sure the line renderer is Enabled 
+            lineRenderer.enabled = true;
             CastLaser(transform.position, -transform.forward);
         }else
         {
-            //do nothing for now 
-            lineRenderer.IsDestroyed();
+            //Disable the laser when laser is NOT active
+            lineRenderer.enabled = false;
+
+            //reset the previous laser bool 
+            previousLaserTrue = false;
         }
     }
 
