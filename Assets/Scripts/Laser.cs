@@ -30,7 +30,7 @@ public class Laser : MonoBehaviour
         lineRenderer.SetPosition(0, laserStartPoint.position); // set the position of the line to start at laser out
 
         //Ignore the collisions between layer 0 (default) and layer 8 (custom layer you set in Inspector window)
-        Physics.IgnoreLayerCollision(7,8);
+        //Physics.IgnoreLayerCollision(7,8);
     }
 
     // Update is called once per frame
@@ -66,7 +66,7 @@ public class Laser : MonoBehaviour
             Ray ray = new Ray(position, reflectionDirection);
             RaycastHit hit;
 
-            if(Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit))
             {
                 position = hit.point;
 
@@ -83,13 +83,43 @@ public class Laser : MonoBehaviour
                     {
                         lineRenderer.SetPosition(j, hit.point);
                     }
-                }else if(hit.transform.tag == "Mirror")
-                {
-                    //set the angle 
-                    lineRenderer.SetPosition(i + 1, hit.point);
                 }
 
+                /**
+                 * Check if the laser is hitting a mirror 
+                 * if yes then activate le laser for that mirror if not do nothing !!!!!!!!!!!!!!!!!!!!!!!!!MAKe this happen in the OnCollisionEnter 
+                 */
+                if (hit.transform.tag == "Mirror")
+                {
+                    //Debug.Log("Is hitting mirror!!!");
+                    //thisLaserScript = hit.transform.gameObject.GetComponentInParent<Laser>();
+                    //thisLaserScript.previousLaserTrue = true;
+                    // Check if the hit object has a parent with a Laser script attached
+                    Laser laserScript = hit.transform.gameObject.GetComponentInChildren<Laser>();
+
+                    if (laserScript != null)
+                    {
+                        // You can now access methods or properties of the Laser script
+                        laserScript.previousLaserTrue = true;
+                    }
+                    else
+                    {
+                        Debug.Log("No Laser script found on the hit object's parent." + hit.transform.name);
+                    }
+                }
+
+                /**
+                 * END GAME HERE OR IN THE LASER START END SCRIPT*******************************************
+                 */
+                //if (hit.transform.tag == "LaserStartEnd")
+                //{
+
+                //}
+
+                    //set the angle 
+                    lineRenderer.SetPosition(i + 1, hit.point);
             }
+
         }
     }
 }

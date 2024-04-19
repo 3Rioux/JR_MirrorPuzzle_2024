@@ -139,7 +139,10 @@ public class MirrorSnap : MonoBehaviour
 
     private void ResetCollider()
     {
-        socketCollider.enabled = !isConnected;
-        socketCollider.radius = 0.8f;
+        if (socketCollider != null)
+        {
+            socketCollider.enabled = !isConnected;
+            socketCollider.radius = 0.8f;
+        }
     }
 }

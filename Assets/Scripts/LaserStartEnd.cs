@@ -16,7 +16,11 @@ public class LaserStartEnd : MonoBehaviour
 
     [SerializeField] public bool isLaserOn;// set to true if switch is on else false  
 
-    
+    /**
+     * access the laser script
+     */
+    private Laser thisLaserScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,25 +43,49 @@ public class LaserStartEnd : MonoBehaviour
          */
         if (isLaserOn && !isEndPoint)
         {
-            if(Physics.Raycast(transform.position, transform.forward, out hit))
+            if(Physics.Raycast(transform.position, -transform.right, out hit))
             {
-                lr.SetPosition(1, hit.point);// set the end point of the ray(laser) to be where it hits 
-            }
+                if (hit.collider)
+                {
+                    lr.SetPosition(1, hit.point);// set the end point of the ray(laser) to be where it hits 
+                }
 
-            /**
-             * Check if the laser is hitting a mirror 
-             * if yes then activate le laser for that mirror if not do nothing !!!!!!!!!!!!!!!!!!!!!!!!!MAKe this happen in the OnCollisionEnter 
-             */
-            if (hit.transform.tag == "Mirror")
-            {
-                hit.transform.gameObject.GetComponent<Laser>().previousLaserTrue = true;
+                /**
+                 * Check if the laser is hitting a mirror 
+                 * if yes then activate le laser for that mirror if not do nothing !!!!!!!!!!!!!!!!!!!!!!!!!MAKe this happen in the OnCollisionEnter 
+                 */
+                if (hit.transform.tag == "Mirror")
+                {
+                    Debug.Log("Is hitting mirror!!!");
+                    //thisLaserScript = hit.transform.gameObject.GetComponentInParent<Laser>();
+                    //thisLaserScript.previousLaserTrue = true;
+                    // Check if the hit object has a parent with a Laser script attached
+                    Laser laserScript = hit.transform.gameObject.GetComponentInChildren<Laser>();
+
+                    if (laserScript != null)
+                    {
+                        // You can now access methods or properties of the Laser script
+                        laserScript.previousLaserTrue = true;
+                    }
+                    else
+                    {
+                        Debug.Log("No Laser script found on the hit object's parent." + hit.transform.name);
+                    }
+                }
             }
+            //else lr.SetPosition(1, -transform.right * 1000);//default laser lenght == 1000 if does not hit anything
+
+            
 
             //add the END game check HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
             //add the END game check HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        }else
+        {
+            //if not start disable the lineRenderer
+            lr.enabled = false;
         }
     }
 
@@ -65,11 +93,12 @@ public class LaserStartEnd : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         //check if THIS gameobject is the endpoint 
-        if (isEndPoint)
+        if (collision.gameObject.CompareTag("Laser") && isEndPoint)
         {
             //gamemanager end game 
             Debug.Log("Game Over!!!");
         }
+        else Debug.Log("Not ENd game" + collision.gameObject.tag);
     }
 
 }
