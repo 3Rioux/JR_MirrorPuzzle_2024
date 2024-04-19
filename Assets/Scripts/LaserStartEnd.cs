@@ -24,14 +24,14 @@ public class LaserStartEnd : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lr = GetComponent<LineRenderer>();
+        lr = this.GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         //set the default possition for the laser
-        lr.SetPosition(0, startPoint.position);
+        lr.SetPosition(0, this.startPoint.position);
 
         //set the raycastHit hit variable to detect if laser hits anything 
         RaycastHit hit;

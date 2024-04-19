@@ -49,13 +49,13 @@ public class MirrorSnap : MonoBehaviour
         /**
          * Access the Laser script and make sure the laser is off 
          */
-        thisMirrorsLaserScript = GetComponentInChildren<Laser>();
-        thisMirrorsLaserScript.laserActivated = false;
+        this.thisMirrorsLaserScript = GetComponentInChildren<Laser>();
+        this.thisMirrorsLaserScript.laserActivated = false;
 
         /**
          * Access the Object Grabbable Script 
          */
-        thisMirrorGabbableScript = GetComponent<ObjectGrabbable>();
+        this.thisMirrorGabbableScript = GetComponent<ObjectGrabbable>();
     }
 
     void Update()
@@ -63,20 +63,20 @@ public class MirrorSnap : MonoBehaviour
         //if (youCan) Interaction();
 
         // frozen if it is connected to PowerOut
-        if (isConnected)
+        if (this.isConnected)
         {
             /**
              * If is connected make the player drop the object then snap in place
              */
-            thisMirrorGabbableScript.Drop();
+            this.thisMirrorGabbableScript.Drop();
 
             //snap in place to the socket 
-            gameObject.transform.position = new Vector3(socketCollider.transform.position.x, socketCollider.transform.position.y + 0.25f, socketCollider.transform.position.z);
+            this.gameObject.transform.position = new Vector3(socketCollider.transform.position.x, socketCollider.transform.position.y + 0.25f, socketCollider.transform.position.z);
 
             /**
              * After placing the mirror in the socketCollider activate the laser
              */
-            thisMirrorsLaserScript.laserActivated = true;
+            this.thisMirrorsLaserScript.laserActivated = true;
             /**
              * Keep the game object original rotation 
              */
@@ -88,14 +88,15 @@ public class MirrorSnap : MonoBehaviour
             /**
              * if the user picks the object up again then turn laser OFF again 
              */
-            thisMirrorsLaserScript.laserActivated = false;
+            this.thisMirrorsLaserScript.laserActivated = false;
             //DoorObject.isOpened = false;
-            
+
 
             /**
              * set the size of the sphere collider back to 1 after the object is taken away AFTER 1 second delay
              */
-            Invoke("ResetCollider", 1f);
+            this.Invoke("ResetCollider", 1f);
+            //ResetCollider();
         }
     }
 
@@ -107,23 +108,23 @@ public class MirrorSnap : MonoBehaviour
         if (other.tag == "Socket")
         {
             //get the socket game object 
-            socketGameObject = other.gameObject;
+            this.socketGameObject = other.gameObject;
 
             //set the socketCollider on collision 
-            socketCollider = socketGameObject.GetComponent<SphereCollider>();
+            this.socketCollider = this.socketGameObject.GetComponent<SphereCollider>();
 
             /**
              * set the size of the sphere collider to the smallest possible after activating the trigger 
              */
-            socketCollider.radius = 0.1f;
+            this.socketCollider.radius = 0.1f;
 
 
             /**
              * Disable the collider after collision  
              */
-            socketCollider.enabled = false;
+            this.socketCollider.enabled = false;
 
-            isConnected = true;
+            this.isConnected = true;
             follow = false;
             //DoorObject.rbDoor.AddRelativeTorque(new Vector3(0, 0, 20f));
 
@@ -141,8 +142,9 @@ public class MirrorSnap : MonoBehaviour
     {
         if (socketCollider != null)
         {
-            socketCollider.enabled = !isConnected;
+            this.socketCollider.enabled = !this.isConnected;
             socketCollider.radius = 0.8f;
+            CancelInvoke("ResetCollider");
         }
     }
 }

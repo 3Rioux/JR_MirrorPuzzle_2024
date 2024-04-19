@@ -32,7 +32,7 @@ public class ObjectGrabbable : MonoBehaviour
         /**
          * Get access to the mirror socket script 
          */
-        mirrorSnapObjectGrababble = GetComponent<MirrorSnap>();
+        this.mirrorSnapObjectGrababble = this.GetComponent<MirrorSnap>();
     }
 
     public void Grab(Transform objectGrabPointTransform)
@@ -44,7 +44,7 @@ public class ObjectGrabbable : MonoBehaviour
          * Set the socket code to be following the player and NOT connected 
          */
         //mirrorSnapObjectGrababble.follow = true;
-        mirrorSnapObjectGrababble.isConnected = false;
+        this.mirrorSnapObjectGrababble.isConnected = false;
 
         this.PlayerHandPosition = objectGrabPointTransform;
         rb.useGravity = false;
