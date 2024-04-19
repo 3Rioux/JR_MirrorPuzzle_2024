@@ -20,6 +20,8 @@ public class MirrorInteraction : MonoBehaviour
      */
     private Laser thisMirrorsLaserScript;
 
+    private ObjectGrabbable b;
+
     //public AN_DoorScript DoorObject;
 
     // NearView()
@@ -171,7 +173,10 @@ public class MirrorInteraction : MonoBehaviour
             isConnected = true;
             follow = false;
             //DoorObject.rbDoor.AddRelativeTorque(new Vector3(0, 0, 20f));
-
+            /**
+             * drop the object before placing it in socket 
+             */
+            b.Drop();
 
             //******************************************************************************************************ADD Lazer Activation Code HERE
 
