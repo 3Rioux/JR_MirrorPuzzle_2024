@@ -2,6 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * =====Is placed on ANY game Object you want to be able to pick up=====
+ * 
+ * Talks with the Players PlayerPickUpDrop script:
+ *      - Gets the players Hand position for that script and if the hand gameObject is NOT null 
+ *        it will Lerp(move) the mirror to the position of the hand.
+ *        
+ * Talks with the Game Manager:
+ *      - The game Manager makes it so that the Mirror can tell the playerPickUpDrop script if the game object gets placed in a socket so 
+ *        this scripts drop method needs to be run.
+ * 
+ */
 public class ObjectGrabbable : MonoBehaviour
 {
     private Rigidbody rb;
@@ -15,6 +27,11 @@ public class ObjectGrabbable : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+
+        /**
+         * Get access to the mirror socket script 
+         */
+        mirrorSnapObjectGrababble = GetComponent<MirrorSnap>();
     }
 
     public void Grab(Transform objectGrabPointTransform)
@@ -22,7 +39,7 @@ public class ObjectGrabbable : MonoBehaviour
         rb.drag = 10f;
         rb.angularDrag = 10f;
 
-        //mirrorSnapObjectGrababble.follow = true;
+        mirrorSnapObjectGrababble.follow = true;
 
         this.PlayerHandPosition = objectGrabPointTransform;
         rb.useGravity = false;
@@ -33,7 +50,7 @@ public class ObjectGrabbable : MonoBehaviour
         rb.drag = 0f;
         rb.angularDrag = .5f;
 
-        //mirrorSnapObjectGrababble.follow = false;
+        mirrorSnapObjectGrababble.follow = false;
 
         this.PlayerHandPosition = null;
         rb.useGravity = true;

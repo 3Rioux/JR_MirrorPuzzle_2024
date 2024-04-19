@@ -5,8 +5,8 @@ using UnityEngine;
 public class MirrorSnap : MonoBehaviour
 {
 
-    [Tooltip("Mirror follows this local EmptyObject in the player prefab")]
-    public Transform PlayerHandPosition;
+    //[Tooltip("Mirror follows this local EmptyObject in the player prefab")]
+    //public Transform PlayerHandPosition;
 
     [Tooltip("socketColliderObject with collider(shpere, box etc.) (is trigger = true)")]
     //public Collider socketCollider; // need Trigger
@@ -21,11 +21,6 @@ public class MirrorSnap : MonoBehaviour
     private Laser thisMirrorsLaserScript;
 
     //public AN_DoorScript DoorObject;
-
-    // NearView()
-    float distance;
-    float angleView;
-    Vector3 direction;
 
     public bool follow = false;
     public bool isConnected = false, followFlag = false, youCan = true;
@@ -44,7 +39,6 @@ public class MirrorSnap : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        boxCol = GetComponent<BoxCollider>();
 
         /**
          * Access the Laser script and make sure the laser is off 
@@ -55,7 +49,7 @@ public class MirrorSnap : MonoBehaviour
 
     void Update()
     {
-        if (youCan) Interaction();
+        //if (youCan) Interaction();
 
         // frozen if it is connected to PowerOut
         if (isConnected)
@@ -87,18 +81,18 @@ public class MirrorSnap : MonoBehaviour
         /**
          * Pick up the mirror game object 
          */
-        if (Input.GetKeyDown(KeyCode.E) && !follow)
-        {
-            isConnected = false; // unfrozen
+        //if (Input.GetKeyDown(KeyCode.E) && !follow)
+        //{
+        //    isConnected = false; // unfrozen
 
-            follow = true;
-            followFlag = false;
+        //    follow = true;
+        //    followFlag = false;
 
-            /**
-             * set the size of the sphere collider back to 1 after the object is taken away 
-             */
-            Invoke("ResetCollider", 1.25f);
-        }
+        //    /**
+        //     * set the size of the sphere collider back to 1 after the object is taken away 
+        //     */
+        //    Invoke("ResetCollider", 1.25f);
+        //}
 
         /**
          * Rotate the mirror game object WHEN FOLLOWING!!!
