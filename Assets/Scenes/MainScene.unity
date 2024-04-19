@@ -11070,6 +11070,7 @@ Transform:
   - {fileID: 200801144}
   - {fileID: 851893018}
   - {fileID: 1037509289}
+  - {fileID: 1695337528}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1575053554
@@ -12210,6 +12211,55 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1695337526
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1695337528}
+  - component: {fileID: 1695337527}
+  m_Layer: 0
+  m_Name: Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1695337527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695337526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: c429e3d84a0e71b48a8f868fe0265058, type: 2}
+--- !u!4 &1695337528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695337526}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -508.126, y: -491.15622, z: -32.62036}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1560767387}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1695559658
 GameObject:
   m_ObjectHideFlags: 0
@@ -16765,8 +16815,21 @@ PrefabInstance:
     - target: {fileID: 9106029114210097487, guid: 04436fa604884b74fa7af92ea9b7804e,
         type: 3}
       propertyPath: m_text
-      value: "Controls:\n A  -- Move Left\n D  -- Move Right\n W -- Move Front\n
-        S  -- Move Back\n Space -- Jump / Break Vehicle\n E -- Interact"
+      value: 'Controls:
+
+        ASWD == Movement
+
+        E == Interact Pickup/Drop
+
+        R
+        == Rotate Mirror
+
+        ^^^(Only if picked up)^^^
+
+        Space == Jump
+
+        ESC
+        == Pause'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

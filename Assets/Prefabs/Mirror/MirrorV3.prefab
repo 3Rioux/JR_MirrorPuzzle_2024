@@ -505,7 +505,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.21580064, g: 1, b: 0, a: 1}
-  m_Intensity: 1
+  m_Intensity: 3
   m_Range: 3
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -633,7 +633,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8ee78d44f8ada20499c8496a0bb4da16, type: 2}
+  - {fileID: 2100000, guid: 13f8a1ae537f84043b14bf434f2b323d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
