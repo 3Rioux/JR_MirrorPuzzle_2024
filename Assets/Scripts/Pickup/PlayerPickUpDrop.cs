@@ -35,7 +35,7 @@ public class PlayerPickUpDrop : MonoBehaviour
             //check if already have something picked up
             if (objectGrabbable == null)//not carrying 
             {
-                float pickUpDistance = 2f;
+                float pickUpDistance = 3f;
                 Transform playerCamera = Camera.main.transform;
 
                 if (Physics.Raycast(playerCamera.position, playerCamera.forward, out RaycastHit raycastHit, pickUpDistance, pickUpLayerMask))

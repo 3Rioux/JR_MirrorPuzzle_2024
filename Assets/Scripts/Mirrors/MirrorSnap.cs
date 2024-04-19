@@ -20,6 +20,11 @@ public class MirrorSnap : MonoBehaviour
      */
     private Laser thisMirrorsLaserScript;
 
+    /**
+     * Access the Grabbable script to make the player drop the game object if the collision occurs 
+     */
+    private ObjectGrabbable thisMirrorGabbableScript;
+
     //public AN_DoorScript DoorObject;
 
     public bool follow = false;
@@ -45,6 +50,11 @@ public class MirrorSnap : MonoBehaviour
          */
         thisMirrorsLaserScript = GetComponentInChildren<Laser>();
         thisMirrorsLaserScript.laserActivated = false;
+
+        /**
+         * Access the Object Grabbable Script 
+         */
+        thisMirrorGabbableScript = GetComponent<ObjectGrabbable>();
     }
 
     void Update()
@@ -54,6 +64,12 @@ public class MirrorSnap : MonoBehaviour
         // frozen if it is connected to PowerOut
         if (isConnected)
         {
+            /**
+             * If is connected make the player drop the object then snap in place
+             */
+            thisMirrorGabbableScript.Drop();
+
+            //snap in place to the socket 
             gameObject.transform.position = new Vector3(socketCollider.transform.position.x, socketCollider.transform.position.y + 0.25f, socketCollider.transform.position.z);
 
             /**
@@ -73,63 +89,16 @@ public class MirrorSnap : MonoBehaviour
              */
             thisMirrorsLaserScript.laserActivated = false;
             //DoorObject.isOpened = false;
+
+
+            /**
+             * set the size of the sphere collider back to 1 after the object is taken away AFTER 1 second delay
+             */
+            Invoke("ResetCollider", 1f);
         }
     }
 
-    public void Interaction()
-    {
-        /**
-         * Pick up the mirror game object 
-         */
-        //if (Input.GetKeyDown(KeyCode.E) && !follow)
-        //{
-        //    isConnected = false; // unfrozen
-
-        //    follow = true;
-        //    followFlag = false;
-
-        //    /**
-        //     * set the size of the sphere collider back to 1 after the object is taken away 
-        //     */
-        //    Invoke("ResetCollider", 1.25f);
-        //}
-
-        /**
-         * Rotate the mirror game object WHEN FOLLOWING!!!
-         */
-        if (Input.GetKeyDown(KeyCode.R) && follow)
-        {
-            //rotate the cube by 90 each press of the R button 
-            gameObject.transform.rotation *= Quaternion.Euler(0, 90, 0); // this adds a 90 degrees Y rotation
-        }
-
-        //if (follow)
-        //{
-        //    //boxCol.enabled = false;
-        //    rb.drag = 10f;
-        //    rb.angularDrag = 10f;
-        //    if (followFlag)
-        //    {
-        //        distance = Vector3.Distance(transform.position, Camera.main.transform.position);
-        //        if (distance > 5f || Input.GetKeyDown(KeyCode.E))
-        //        {
-        //            follow = false;
-        //        }
-        //    }
-
-        //    followFlag = true;
-        //    //rb.AddExplosionForce(-1000f, PlayerHandPosition.position, 10f);
-        //    // second variant of following
-        //    //gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, objectLerp.position, 1f);
-        //    gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, PlayerHandPosition.position, 1f);
-        //}
-        //else
-        //{
-        //    //boxCol.enabled = true;
-        //    rb.drag = 0f;
-        //    rb.angularDrag = .5f;
-        //}
-    }
+   
 
 
     private void OnTriggerEnter(Collider other)
@@ -143,9 +112,9 @@ public class MirrorSnap : MonoBehaviour
             socketCollider = socketGameObject.GetComponent<SphereCollider>();
 
             /**
-             * set the size of the sphere colider to the smallest possible after activating the trigger 
+             * set the size of the sphere collider to the smallest possible after activating the trigger 
              */
-            //socketCollider.radius = 0.1f;
+            socketCollider.radius = 0.1f;
 
 
             /**

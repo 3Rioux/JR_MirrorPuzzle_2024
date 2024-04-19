@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /**
@@ -39,7 +40,11 @@ public class ObjectGrabbable : MonoBehaviour
         rb.drag = 10f;
         rb.angularDrag = 10f;
 
-        mirrorSnapObjectGrababble.follow = true;
+        /**
+         * Set the socket code to be following the player and NOT connected 
+         */
+        //mirrorSnapObjectGrababble.follow = true;
+        mirrorSnapObjectGrababble.isConnected = false;
 
         this.PlayerHandPosition = objectGrabPointTransform;
         rb.useGravity = false;
@@ -50,7 +55,7 @@ public class ObjectGrabbable : MonoBehaviour
         rb.drag = 0f;
         rb.angularDrag = .5f;
 
-        mirrorSnapObjectGrababble.follow = false;
+       // mirrorSnapObjectGrababble.follow = false;
 
         this.PlayerHandPosition = null;
         rb.useGravity = true;
@@ -61,6 +66,15 @@ public class ObjectGrabbable : MonoBehaviour
     {
         if (PlayerHandPosition != null)
         {
+            /**
+             * Rotate the mirror game object if the object is in the hand of the player
+             */
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                //rotate the cube by 90 each press of the R button 
+                gameObject.transform.rotation *= Quaternion.Euler(0, 90, 0); // this adds a 90 degrees Y rotation
+            }
+
             gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, PlayerHandPosition.position, 1f);
         }
     }
