@@ -76,7 +76,13 @@ public class MirrorSnap : MonoBehaviour
             /**
              * After placing the mirror in the socketCollider activate the laser
              */
-            this.thisMirrorsLaserScript.laserActivated = true;
+            //if (this.thisMirrorsLaserScript.previousLaserTrue)
+            //{
+                this.thisMirrorsLaserScript.laserActivated = true;
+            //}else
+            //{
+            //    Debug.Log("Not Active");
+            //}
             /**
              * Keep the game object original rotation 
              */
@@ -89,6 +95,7 @@ public class MirrorSnap : MonoBehaviour
              * if the user picks the object up again then turn laser OFF again 
              */
             this.thisMirrorsLaserScript.laserActivated = false;
+            
             //DoorObject.isOpened = false;
 
 

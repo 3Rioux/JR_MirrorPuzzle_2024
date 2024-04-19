@@ -21,6 +21,12 @@ public class LaserStartEnd : MonoBehaviour
      */
     private Laser thisLaserScript;
 
+    /**
+     * access the light on the Mirror Game object
+     */
+    private Light thisMirrorLight;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,12 +49,24 @@ public class LaserStartEnd : MonoBehaviour
          */
         if (isLaserOn && !isEndPoint)
         {
-            if(Physics.Raycast(transform.position, -transform.right, out hit))
+            //make sure its on after the lever toggles it back on 
+            lr.enabled = true;
+
+            if (Physics.Raycast(transform.position, -transform.right, out hit))
             {
                 if (hit.collider)
                 {
                     lr.SetPosition(1, hit.point);// set the end point of the ray(laser) to be where it hits 
                 }
+
+
+                // Check if the hit object has a parent with a Laser script attached
+                Laser laserScript = hit.transform.gameObject.GetComponentInChildren<Laser>();
+
+                /**
+                 * access the light on the Mirror Game object
+                 */
+                Light mirrorLight = hit.transform.gameObject.GetComponentInChildren<Light>();
 
                 /**
                  * Check if the laser is hitting a mirror 
@@ -59,13 +77,28 @@ public class LaserStartEnd : MonoBehaviour
                     //Debug.Log("Is hitting mirror!!!");
                     //thisLaserScript = hit.transform.gameObject.GetComponentInParent<Laser>();
                     //thisLaserScript.previousLaserTrue = true;
-                    // Check if the hit object has a parent with a Laser script attached
-                    Laser laserScript = hit.transform.gameObject.GetComponentInChildren<Laser>();
 
-                    if (laserScript != null)
+                    if (laserScript != null && mirrorLight != null)
                     {
                         // You can now access methods or properties of the Laser script
                         laserScript.previousLaserTrue = true;
+
+                        //turn opn the light 
+                        mirrorLight.enabled = true;
+                    }
+                    else
+                    {
+                        Debug.Log("No Laser script found on the hit object's parent." + hit.transform.name);
+                    }
+                }else
+                {
+                    if (laserScript != null && mirrorLight != null)
+                    {
+                        // You can now access methods or properties of the Laser script
+                        laserScript.previousLaserTrue = false;
+
+                        //turn opn the light 
+                        mirrorLight.enabled = false;
                     }
                     else
                     {
@@ -84,6 +117,7 @@ public class LaserStartEnd : MonoBehaviour
             //add the END game check HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }else
         {
+
             //if not start disable the lineRenderer
             lr.enabled = false;
         }

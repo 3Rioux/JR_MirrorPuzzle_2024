@@ -23,6 +23,8 @@ public class Laser : MonoBehaviour
     //bool to toggle the mirrors laser until the previous laser makes contact with this mirror 
     public bool previousLaserTrue = false; //off by default 
 
+    private Light mirrorLight;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +50,23 @@ public class Laser : MonoBehaviour
 
             //reset the previous laser bool 
             previousLaserTrue = false;
+
+            
+
+        }
+
+        /**
+         * Dont really know why this works but i accidently created it and it turns the lights off so :D
+         */
+        //turn off the Light 
+        if (!lineRenderer.enabled)
+        {
+            mirrorLight = GetComponentInChildren<Light>();
+            if (mirrorLight != null)
+            {
+                //turn off the light if the line renderer is off 
+                mirrorLight.enabled = false;
+            }
         }
     }
 
@@ -76,6 +95,16 @@ public class Laser : MonoBehaviour
                 //set the angle 
                 lineRenderer.SetPosition(i + 1, hit.point);
 
+                // Check if the hit object has a parent with a Laser script attached
+                Laser laserScript = hit.transform.gameObject.GetComponentInChildren<Laser>();
+
+                /**
+                 * access the light on the Mirror Game object
+                 */
+                mirrorLight = hit.transform.gameObject.GetComponentInChildren<Light>();
+
+
+
                 //test the reflection is on a mirror && is the reflectOnlyMirror bool toggled from the serialised feield
                 if (hit.transform.tag != "Mirror" && reflectOnlyMirror)
                 {
@@ -93,13 +122,17 @@ public class Laser : MonoBehaviour
                     //Debug.Log("Is hitting mirror!!!");
                     //thisLaserScript = hit.transform.gameObject.GetComponentInParent<Laser>();
                     //thisLaserScript.previousLaserTrue = true;
-                    // Check if the hit object has a parent with a Laser script attached
-                    Laser laserScript = hit.transform.gameObject.GetComponentInChildren<Laser>();
+                    
 
                     if (laserScript != null)
                     {
                         // You can now access methods or properties of the Laser script
                         laserScript.previousLaserTrue = true;
+
+                        /**
+                         * Turn on Lights 
+                         */
+                        mirrorLight.enabled = true;
                     }
                     else
                     {

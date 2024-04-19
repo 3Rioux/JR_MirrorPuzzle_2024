@@ -11,7 +11,8 @@ public class AN_Button : MonoBehaviour
     [Tooltip("If it is false door can't be used")]
     public bool Locked = false;
     [Tooltip("The door for remote control")]
-    public AN_DoorScript DoorObject;
+    //public AN_DoorScript DoorObject;
+    public LaserStartEnd DoorObject;
     [Space]
     [Tooltip("Any object for ramp/elevator baheviour")]
     public Transform RampObject;
@@ -41,7 +42,7 @@ public class AN_Button : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
-        startYPosition = RampObject.position.y;
+        //startYPosition = RampObject.position.y;
         startQuat = transform.rotation;
         rampQuat = RampObject.rotation;
     }
@@ -50,12 +51,13 @@ public class AN_Button : MonoBehaviour
     {
         if (!Locked)
         {
-            if (Input.GetKeyDown(KeyCode.E) && !isValve && DoorObject != null && DoorObject.Remote && NearView()) // 1.lever and 2.button
+            if (Input.GetKeyDown(KeyCode.E) && !isValve && DoorObject != null && NearView()) // 1.lever and 2.button
             {
-                DoorObject.Action(); // void in door script to open/close
+                //DoorObject.Action(); // void in door script to open/close
+                DoorObject.isLaserOn = !DoorObject.isLaserOn;
                 if (isLever) // animations
                 {
-                    if (DoorObject.isOpened) anim.SetBool("LeverUp", true);
+                    if (DoorObject.isLaserOn) anim.SetBool("LeverUp", true);
                     else anim.SetBool("LeverUp", false);
                 }
                 else anim.SetTrigger("ButtonPress");
@@ -65,22 +67,22 @@ public class AN_Button : MonoBehaviour
                 // changing value in script
                 if (Input.GetKey(KeyCode.E) && NearView())
                 {
-                    if (valveBool)
-                    {
-                        if (!isOpened && CanOpen && current < max) current += speed * Time.deltaTime;
-                        if (isOpened && CanClose && current > min) current -= speed * Time.deltaTime;
+                    //if (valveBool)
+                    //{
+                    //    if (!isOpened && CanOpen && current < max) current += speed * Time.deltaTime;
+                    //    if (isOpened && CanClose && current > min) current -= speed * Time.deltaTime;
 
-                        if (current >= max)
-                        {
-                            isOpened = true;
-                            valveBool = false;
-                        }
-                        else if (current <= min)
-                        {
-                            isOpened = false;
-                            valveBool = false;
-                        }
-                    }
+                    //    if (current >= max)
+                    //    {
+                    //        isOpened = true;
+                    //        valveBool = false;
+                    //    }
+                    //    else if (current <= min)
+                    //    {
+                    //        isOpened = false;
+                    //        valveBool = false;
+                    //    }
+                    //}
 
                 }
                 else
@@ -103,7 +105,7 @@ public class AN_Button : MonoBehaviour
         distance = Vector3.Distance(transform.position, Camera.main.transform.position);
         direction = transform.position - Camera.main.transform.position;
         angleView = Vector3.Angle(Camera.main.transform.forward, direction);
-        if (angleView < 45f && distance < 2f) return true;
+        if (angleView < 45f && distance < 5f) return true;
         else return false;
     }
 }
