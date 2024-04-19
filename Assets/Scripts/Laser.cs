@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-    int maxBounces = 1;
+    [SerializeField] private int maxBounces = 0;
 
     private LineRenderer lineRenderer;
 
@@ -40,7 +40,7 @@ public class Laser : MonoBehaviour
         {
             //Make sure the line renderer is Enabled 
             lineRenderer.enabled = true;
-            CastLaser(transform.position, -transform.forward);
+            this.CastLaser(transform.position, -transform.forward);
         }else
         {
             //Disable the laser when laser is NOT active
@@ -89,7 +89,7 @@ public class Laser : MonoBehaviour
                  * Check if the laser is hitting a mirror 
                  * if yes then activate le laser for that mirror if not do nothing !!!!!!!!!!!!!!!!!!!!!!!!!MAKe this happen in the OnCollisionEnter 
                  */
-                if (hit.transform.tag == "Mirror")
+                else if (hit.transform.tag == "Mirror")
                 {
                     //Debug.Log("Is hitting mirror!!!");
                     //thisLaserScript = hit.transform.gameObject.GetComponentInParent<Laser>();
@@ -107,17 +107,29 @@ public class Laser : MonoBehaviour
                         Debug.Log("No Laser script found on the hit object's parent." + hit.transform.name);
                     }
                 }
-
                 /**
                  * END GAME HERE OR IN THE LASER START END SCRIPT*******************************************
                  */
-                //if (hit.transform.tag == "LaserStartEnd")
-                //{
+                else if (hit.transform.tag == "LaserStartEnd")
+                {
+                    LaserStartEnd laserStartEndScript = hit.transform.gameObject.GetComponentInChildren<LaserStartEnd>();
+                    if (laserStartEndScript != null)
+                    {
+                        //if the script is found check to see if the collision hit the end game node else its the start node
+                        if(laserStartEndScript.isEndPoint)
+                        {
 
-                //}
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("No Laser script found on the hit object's parent." + hit.transform.name);
+                    }
+                    Debug.Log("End Game");
+                }
 
-                    //set the angle 
-                    lineRenderer.SetPosition(i + 1, hit.point);
+                //set the angle 
+                lineRenderer.SetPosition(i + 1, hit.point);
             }
 
         }

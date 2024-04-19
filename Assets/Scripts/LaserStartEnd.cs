@@ -12,7 +12,7 @@ public class LaserStartEnd : MonoBehaviour
     private Transform startPoint;
 
     //start End bools =============================
-    [SerializeField] private bool isEndPoint;// set to true if end point false if start point 
+    [SerializeField] public bool isEndPoint;// set to true if end point false if start point 
 
     [SerializeField] public bool isLaserOn;// set to true if switch is on else false  
 
@@ -56,7 +56,7 @@ public class LaserStartEnd : MonoBehaviour
                  */
                 if (hit.transform.tag == "Mirror")
                 {
-                    Debug.Log("Is hitting mirror!!!");
+                    //Debug.Log("Is hitting mirror!!!");
                     //thisLaserScript = hit.transform.gameObject.GetComponentInParent<Laser>();
                     //thisLaserScript.previousLaserTrue = true;
                     // Check if the hit object has a parent with a Laser script attached
@@ -90,15 +90,15 @@ public class LaserStartEnd : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        //check if THIS gameobject is the endpoint 
-        if (collision.gameObject.CompareTag("Laser") && isEndPoint)
-        {
-            //gamemanager end game 
-            Debug.Log("Game Over!!!");
-        }
-        else Debug.Log("Not ENd game" + collision.gameObject.tag);
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    //check if THIS gameobject is the endpoint 
+    //    if (collision.gameObject.tag == "Laser" && isEndPoint)
+    //    {
+    //        //gamemanager end game 
+    //        Debug.Log("Game Over!!!");
+    //    }
+    //    else Debug.Log("Not ENd game" + collision.gameObject.tag);
+    //}
 
 }
