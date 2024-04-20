@@ -158,6 +158,7 @@ public class Laser : MonoBehaviour
                         Debug.Log("No Laser script found on the hit object's parent." + hit.transform.name);
                     }
                     Debug.Log("End Game");
+                    GameManager.gmInstance.UpdateGameState(GameState.EndLevel);
                 }
                 //set the angle 
                 this.lineRenderer.SetPosition(i + 1, hit.point);

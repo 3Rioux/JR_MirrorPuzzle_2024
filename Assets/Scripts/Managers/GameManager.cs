@@ -279,7 +279,7 @@ public class GameManager : MonoBehaviour
 
     private void UpdateStateText(String currentGameStateText)
     {
-        gameStateText.text = currentGameStateText;
+       // gameStateText.text = currentGameStateText;
         gameStateText.outlineColor = Color.yellow;
         //message 
 
