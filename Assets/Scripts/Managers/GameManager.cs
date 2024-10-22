@@ -1,13 +1,11 @@
 using Audio;
-using Managers;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,9 +34,9 @@ public class GameManager : MonoBehaviour
      * 
      * if resolution == default then GetScreenResolution()
      * else set full screen to the desired screen resolution 
-     */                   
-    public bool fullScreen = false; 
-                               
+     */
+    public bool fullScreen = false;
+
 
     //====================================GAME SETTINGS VARIABLES START
 
@@ -139,7 +137,7 @@ public class GameManager : MonoBehaviour
     private bool checkOnLoad = true;
 
     //==============================================================================CURRENT SCENE VARIABLES END
-    
+
     //==============================================================================OPEN GATE START
     /**
      * bool to allow the gate to open or close 
@@ -218,7 +216,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -228,8 +226,8 @@ public class GameManager : MonoBehaviour
          * Check to see if the current active scene is a level or if its Main Menu or Endding Menu
          * (Main index 0 && End index 1) Everything else is a level 
          */
-        
-        if(SceneManager.GetActiveScene().buildIndex > 1 && checkOnLoad)
+
+        if (SceneManager.GetActiveScene().buildIndex > 1 && checkOnLoad)
         {
             /**
              * Could move to LevelWasLoaded() 
@@ -269,9 +267,9 @@ public class GameManager : MonoBehaviour
         if (Keyboard.current.escapeKey.wasPressedThisFrame && SceneManager.GetActiveScene().buildIndex > 1) // make sure the game scene is not main or ending 
         {
             if (_isGamePaused)
-                Resume();
+                ResumeButton();
             else
-                Pause();
+                PauseButton();
         }
     }
 
@@ -279,7 +277,7 @@ public class GameManager : MonoBehaviour
 
     private void UpdateStateText(String currentGameStateText)
     {
-       // gameStateText.text = currentGameStateText;
+        // gameStateText.text = currentGameStateText;
         gameStateText.outlineColor = Color.yellow;
         //message 
 
@@ -302,7 +300,7 @@ public class GameManager : MonoBehaviour
                 gameStateText.outlineColor = Color.white;
                 break;
             case GameState.EndLevel:
-                
+
                 EndGameWasLoad();
                 //_endingMenuUI.SetActive(true);
                 break;
@@ -312,7 +310,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Lose:
                 break;
-            //default:
+                //default:
                 //throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
 
         }// end switch 
@@ -495,7 +493,7 @@ public class GameManager : MonoBehaviour
         HideMouseCursor();
 
         StartCoroutine(LoadSceneAsync(currentLevel));
-        
+
 
         AudioManager.Instance.PlayAmbient("WindAmbient");
         AudioManager.Instance.PlayMusic("GameTheme");
@@ -534,7 +532,7 @@ public class GameManager : MonoBehaviour
         _pauseMenuUI.SetActive(false);
         _mainMenuUI.SetActive(false);
         _endingMenuUI.SetActive(true);
-        
+
         /**
          * Make sure to close the gate for the next level
          */
