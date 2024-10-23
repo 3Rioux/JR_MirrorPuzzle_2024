@@ -9,17 +9,17 @@ namespace Audio
 
         public void MusicVolume()
         {
-            AudioManager.Instance.MusicVolume(_musicSlider.value);
+            AudioManager.audioManager_Instance.MusicVolume(_musicSlider.value);
         }
-        
+
         public void SFXVolume()
         {
-            AudioManager.Instance.SFXVolume(_sfxSlider.value);
+            AudioManager.audioManager_Instance.SFXVolume(_sfxSlider.value);
         }
-        
+
         public void AmbientVolume()
         {
-            AudioManager.Instance.AmbientVolume(_ambientSlider.value);
+            AudioManager.audioManager_Instance.AmbientVolume(_ambientSlider.value);
         }
     }
 }

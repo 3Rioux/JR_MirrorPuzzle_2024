@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using Audio;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Managers
@@ -10,7 +7,7 @@ namespace Managers
     public class MenuManager : MonoBehaviour
     {
         [SerializeField] private bool _isGamePaused;
-        [SerializeField] private GameObject _pauseMenuUI,_settingsMenuUI, _PlayerInfoUI;
+        [SerializeField] private GameObject _pauseMenuUI, _settingsMenuUI, _PlayerInfoUI;
 
         //public void PlayButton()
         //{
@@ -20,7 +17,7 @@ namespace Managers
 
         //    SceneManager.LoadSceneAsync(1);
 
-            
+
         //    AudioManager.Instance.PlayAmbient("WindAmbient");
         //    AudioManager.Instance.PlayMusic("GameTheme");
 
@@ -35,9 +32,9 @@ namespace Managers
 
             SceneManager.LoadSceneAsync(0);
 
-            
-            Destroy(AudioManager.Instance.gameObject);
-            AudioManager.Instance.PlayMusic("MainMenuMusic");
+
+            Destroy(AudioManager.audioManager_Instance.gameObject);
+            AudioManager.audioManager_Instance.PlayMusic("MainMenuMusic");
 
             Debug.Log("Going Back to Main Menu");
         }

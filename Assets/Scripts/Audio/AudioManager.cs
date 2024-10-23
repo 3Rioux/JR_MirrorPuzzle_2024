@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,13 +11,13 @@ namespace Audio
 
         //private bool mute = false;
 
-        public static AudioManager Instance;
+        public static AudioManager audioManager_Instance;
 
         private void Awake()
         {
-            if (Instance == null)
+            if (audioManager_Instance == null)
             {
-                Instance = this;
+                audioManager_Instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else
@@ -30,7 +29,7 @@ namespace Audio
         private void Start()
         {
             Scene currentScene = SceneManager.GetActiveScene();
-            Instance.PlayMusic(currentScene.buildIndex == 0 ? "MainMenuMusic" : "GameTheme");
+            audioManager_Instance.PlayMusic(currentScene.buildIndex == 0 ? "MainMenuMusic" : "GameTheme");
         }
 
         public void PlaySFX(string sfxName)
@@ -57,8 +56,8 @@ namespace Audio
                 _musicSource.Play();
             }
         }
-        
-        
+
+
         public void PlayAmbient(string ambientName)
         {
             Sound sound = Array.Find(_ambientSound, x => x.name == ambientName);
@@ -95,7 +94,7 @@ namespace Audio
         {
             _sfxSource.volume = volume;
         }
-        
+
         public void AmbientVolume(float volume)
         {
             _ambientSource.volume = volume;

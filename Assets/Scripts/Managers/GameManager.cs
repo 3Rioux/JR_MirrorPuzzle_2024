@@ -495,8 +495,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine(LoadSceneAsync(currentLevel));
 
 
-        AudioManager.Instance.PlayAmbient("WindAmbient");
-        AudioManager.Instance.PlayMusic("GameTheme");
+        AudioManager.audioManager_Instance.PlayAmbient("WindAmbient");
+        AudioManager.audioManager_Instance.PlayMusic("GameTheme");
 
         Debug.Log("Loading Game Level " + currentLevel);
     }
@@ -568,8 +568,8 @@ public class GameManager : MonoBehaviour
          * Change the Music from level or endgame to the mainmenu music +++
          * Change Stop playing ambient music in Main Menu 
          */
-        AudioManager.Instance.PlayMusic("MainMenuMusic");
-        AudioManager.Instance.PlayAmbient("None");
+        AudioManager.audioManager_Instance.PlayMusic("MainMenuMusic");
+        AudioManager.audioManager_Instance.PlayAmbient("None");
     }
 
     /**
@@ -624,8 +624,8 @@ public class GameManager : MonoBehaviour
         /**
          * Reset the audio to the level audio rather than the end scene audio 
          */
-        AudioManager.Instance.PlayAmbient("WindAmbient");
-        AudioManager.Instance.PlayMusic("GameTheme");
+        AudioManager.audioManager_Instance.PlayAmbient("WindAmbient");
+        AudioManager.audioManager_Instance.PlayMusic("GameTheme");
         Debug.Log("Loaded Next Scene Success");
 
 
@@ -844,8 +844,8 @@ public class GameManager : MonoBehaviour
          * Change the Music from level or endgame to the mainmenu music +++
          * Change Stop playing ambient music in Main Menu 
          */
-        AudioManager.Instance.PlayMusic("MainMenuMusic");
-        AudioManager.Instance.PlayAmbient("None");
+        AudioManager.audioManager_Instance.PlayMusic("MainMenuMusic");
+        AudioManager.audioManager_Instance.PlayAmbient("None");
 
         Debug.Log("Going Back to Main Menu " + currentLevel);
     }
